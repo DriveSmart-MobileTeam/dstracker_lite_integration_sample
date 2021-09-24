@@ -38,7 +38,7 @@ Si aún no lo has hecho, descarga e instala el entorno de desarrollo y las libre
 ```
 dependencies {
 	// ......
-	implementation 'DriveSmart:DS-SDK:5.20.30'
+	implementation 'DriveSmart:DS-SDK:5.20.31'
   	// ......
 }
 ```
@@ -164,21 +164,21 @@ Si el objeto recibido es valido, a continuación, se debe definir el userID en e
 Para iniciar un viaje es preciso incluir el método del SDK *startDecoupledService()* en un servicio. 
 ```
 //...
-dsTrackerLite.startDecoupledService(partnerMetaData);
+dsTrackerLite.start(partnerMetaData);
 //...
 ```
 
-Una vez el viaje finalice, según el ciclo de vida del servicio, se debe llamar al metodo *stopDecoupledService()* para finalizar el análisis de viaje.
+Una vez el viaje finalice, según el ciclo de vida del servicio, se debe llamar al metodo *stop()* para finalizar el análisis de viaje.
 ```
 //...
-dsTrackerLite.stopDecoupledService();
+dsTrackerLite.stop();
 //...
 ```
 Para enviar el viaje a los servidores para su procesado es necesario invocar el método:
-*startManualUpload(this)*;
+*upload(this)*;
 ```
 //...
-dsTrackerLite.startManualUpload(service);
+dsTrackerLite.upload(service);
 //...
 ```
 
