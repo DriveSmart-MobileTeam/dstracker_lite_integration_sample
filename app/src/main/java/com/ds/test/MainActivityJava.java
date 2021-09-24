@@ -138,7 +138,7 @@ public class MainActivityJava extends AppCompatActivity{
                 addLog("DSTracker configured");
                 identifyEnvironmet(userID);
             }else{
-                String error = ((DSResult.Error) dsResult).getError().getDescription();
+                String error = ((DSResult.Error) dsResult).toString();
                 addLog("Configure DSTracker: "+error);
             }
             return null;

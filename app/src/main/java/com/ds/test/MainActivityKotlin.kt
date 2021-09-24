@@ -127,7 +127,7 @@ class MainActivityKotlin: AppCompatActivity() {
                 addLog("DSTracker configured")
                 identifyEnvironmet(userID)
             } else {
-                val error: String = (dsResult as Error).message.toString()
+                val error: String = dsResult.toString()
                 addLog("Configure DSTracker: $error")
             }
         }
