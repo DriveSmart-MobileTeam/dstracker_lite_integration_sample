@@ -7,19 +7,17 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.drivesmartsdk.singleton.DSManager
-import com.drivesmartsdk.singleton.DSManager.Companion.getInstance
+import com.drivesmartsdk.singleton.DSTrackerLite.Companion.getInstance
+import com.drivesmartsdk.singleton.DSTrackerLite
 
 
 class LiteService : Service() {
     private val CHANNEL_ID = "DSTracker channel"
 
-    private lateinit var manager: DSManager
+    private lateinit var dsTrackerLite: DSTrackerLite
 
     companion object {
         fun startService(context: Context, message: String, pmd: String) {
@@ -37,7 +35,7 @@ class LiteService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        manager = getInstance(applicationContext)
+        dsTrackerLite = getInstance(applicationContext)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -57,7 +55,7 @@ class LiteService : Service() {
             .build()
         startForeground(1, notification)
 
-        manager.startDecoupledService(pmd)
+        dsTrackerLite.start(pmd)
         return START_NOT_STICKY
     }
 
@@ -85,6 +83,6 @@ class LiteService : Service() {
     }
 
     private fun startForceUpload() {
-        manager.startManualUpload(this)
+        dsTrackerLite.upload(this)
     }
 }

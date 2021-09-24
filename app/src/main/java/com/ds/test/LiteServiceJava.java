@@ -15,12 +15,13 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.drivesmartsdk.singleton.DSManager;
+import com.drivesmartsdk.singleton.DSTrackerLite;
 
 
 public class LiteServiceJava extends Service {
     public static final String CHANNEL_ID = "DSTracker channel";
 
-    private DSManager dsManager;
+    private DSTrackerLite dsTrackerLite;
 
     public LiteServiceJava(){ }
 
@@ -28,7 +29,7 @@ public class LiteServiceJava extends Service {
     public void onCreate() {
         super.onCreate();
 
-        dsManager = DSManager.getInstance(getApplicationContext());
+        dsTrackerLite = DSTrackerLite.getInstance(getApplicationContext());
     }
 
     @Override
@@ -49,7 +50,7 @@ public class LiteServiceJava extends Service {
 
         startForeground(1, notification);
 
-        dsManager.startDecoupledService(pmd);
+        dsTrackerLite.start(pmd);
 
         return START_NOT_STICKY;
     }
@@ -80,7 +81,7 @@ public class LiteServiceJava extends Service {
     }
 
     private void startForceUpload(){
-        dsManager.stopDecoupledService();
-        dsManager.startManualUpload(this);
+        dsTrackerLite.stop();
+        dsTrackerLite.upload(this);
     }
 }
