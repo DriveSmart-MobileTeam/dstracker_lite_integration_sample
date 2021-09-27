@@ -102,11 +102,9 @@ If all the permissions indicated are correctly configured, the environment will 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // ...
-
         defineConstants()
-        prepareEnvironment()
-  
-  	    // ...
+        prepareEnvironment() 
+        // ...
     }
   
     private fun defineConstants() {
@@ -133,7 +131,7 @@ If all the permissions indicated are correctly configured, the environment will 
 ## User linking
 A unique user identifier is required for the DriveSmart Library to create trips.
 
-```javascript
+```kotlin
 // ... 
 dsTrackerLite.setUserId(uid) {
             addLog("Defining USER ID: $uid")
@@ -143,7 +141,7 @@ dsTrackerLite.setUserId(uid) {
 
 To obtain a valid user identifier, the following service can be consulted, whitch will create a new user in the DriveSmart System or return the user if it exist.
 
-```javascript
+```kotlin
 private fun getOrAddUser(user: String) {
         GlobalScope.launch(Dispatchers.Main) {
             val session = getUserSession(user)
@@ -162,14 +160,14 @@ If the received object is valid, then the userId must be defined in the library 
 To start a trip, you must include the SDK method *start(String)* in a service
 
 *Es necesario declarar en el Manifest del proyecto el servicio que usará la librería de Drive-Smart*
-```
+```kotlin
 //...
 dsTrackerLite.start(partnerMetaData)
 //...
 ```
 
 Once the trip ends, according to the lifecycle of the service, the *stop()* method must be called to end the trip analysis.
-```
+```kotlin
 //...
 dsTrackerLite.stop()
 //...
@@ -178,7 +176,7 @@ dsTrackerLite.stop()
 The events are sent as they are collected, but it is that the tracking is finished and not all the events have been sent. This can happen, for example, when the device does not have internet connection.
 
 To force send the trip to the servers for processing, it is necessary to invoke the method *upload(this)*.
-```
+```kotlin
 //...
 dsTrackerLite.upload(service)
 //...

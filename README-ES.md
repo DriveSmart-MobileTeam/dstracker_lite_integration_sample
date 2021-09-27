@@ -103,11 +103,9 @@ Si todos los permisos indicados están correctamente configurados, el entorno es
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // ...
-
         defineConstants()
         prepareEnvironment()
-  
-  	    // ...
+        // ...
     }
   
     private fun defineConstants() {
