@@ -118,7 +118,7 @@ public class MainActivityJava extends AppCompatActivity{
             @NonNull
             @Override
             public CoroutineContext getContext() {
-                return null;
+                return EmptyCoroutineContext.INSTANCE;
             }
 
             @Override
