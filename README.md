@@ -162,6 +162,8 @@ Si el objeto recibido es valido, a continuación, se debe definir el userID en e
 ## Paso 4: Análisis de viajes
 
 Para iniciar un viaje es preciso incluir el método del SDK *start(String)* en un servicio. 
+
+*Es necesario declarar en el Manifest del proyecto el servicio que usará la librería de Drive-Smart*
 ```
 //...
 dsTrackerLite.start(partnerMetaData);
