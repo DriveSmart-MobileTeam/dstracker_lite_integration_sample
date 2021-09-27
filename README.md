@@ -90,29 +90,44 @@ If all the permissions indicated are correctly configured, the environment will 
 
 
 ## Configuration
-* In the **project** `Java or Kotlin` file, add the library main object and initialize it:
+* In the **project** file, add the library main object and initialize it:
 
-  ```java
-  // ...
-  private DSTrackerLite dsTrackerLite;
-  // ...
+  ```kotlin
+    // ...
+    private DSTrackerLite dsTrackerLite
+    private lateinit var apkID: String
+    private lateinit var userID: String
+    // ...
   
-  public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-  	super.onViewCreated(view, savedInstanceState);
-    	// ...
-    	dsTrackerLite = DSTrackerLite.getInstance(requireActivity());
-    		dsTrackerLite.configure(apkID, dsResult -> {
-            	if (dsResult instanceof Success) {
-              	Log.e("DRIVE-SMART", "DSTracker configured");          
-                }else{
-                	String error = ((DSResult.Error) dsResult).getError().getDescription();
-                	Log.e("DRIVE-SMART", error);
-                }
-            	return null;
-              });
-          }
-  	// ...
-  }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // ...
+
+        defineConstants()
+        prepareEnvironment()
+  
+  	    // ...
+    }
+  
+    private fun defineConstants() {
+        apkID = ""
+        userID = ""
+    }
+  
+    private fun prepareEnvironment() {
+        dsTrackerLite = DSTrackerLite.getInstance(this)
+        dsTrackerLite.configure(apkID) { dsResult: DSResult ->
+            if (dsResult is DSResult.Success) {
+                addLog("DSTracker configured")
+                identifyEnvironmet(userID)
+            } else {
+                val error: String = dsResult.toString()
+                addLog("Configure DSTracker: $error")
+            }
+        }
+    }
+  
+    // ...
   ```
 
 ## User linking
@@ -120,33 +135,23 @@ A unique user identifier is required for the DriveSmart Library to create trips.
 
 ```javascript
 // ... 
-dsManager.setUserId(USERID, result -> {
-    Log.e("DRIVE-SMART", "Defining USER ID: " + USERID);          
-    return null;
-});
+dsTrackerLite.setUserId(uid) {
+            addLog("Defining USER ID: $uid")
+        }
 // ... 
 ```
 
 To obtain a valid user identifier, the following service can be consulted, whitch will create a new user in the DriveSmart System or return the user if it exist.
 
 ```javascript
-private void getOrAddUser(String user) {
-    dsTrackerLite.getOrAddUserIdBy(user, new Continuation<String>() {
-            @NonNull
-            @Override
-            public CoroutineContext getContext() {
-                return EmptyCoroutineContext.INSTANCE;
-            }
+private fun getOrAddUser(user: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val session = getUserSession(user)
 
-            @Override
-            public void resumeWith(@NonNull Object o) {
-                if(o instanceof String){
-                    userSession = o.toString();
-                    addLog("User id created: " + o.toString());
-                }
+            userSession = session
+            addLog("User id created: $session")
             }
-        });
-}
+    }
 ```
 
 If the received object is valid, then the userId must be defined in the library method already commented.
@@ -159,14 +164,14 @@ To start a trip, you must include the SDK method *start(String)* in a service
 *Es necesario declarar en el Manifest del proyecto el servicio que usará la librería de Drive-Smart*
 ```
 //...
-dsTrackerLite.start(partnerMetaData);
+dsTrackerLite.start(partnerMetaData)
 //...
 ```
 
 Once the trip ends, according to the lifecycle of the service, the *stop()* method must be called to end the trip analysis.
 ```
 //...
-dsTrackerLite.stop();
+dsTrackerLite.stop()
 //...
 ```
 
@@ -175,7 +180,7 @@ The events are sent as they are collected, but it is that the tracking is finish
 To force send the trip to the servers for processing, it is necessary to invoke the method *upload(this)*.
 ```
 //...
-dsTrackerLite.upload(service);
+dsTrackerLite.upload(service)
 //...
 ```
 
