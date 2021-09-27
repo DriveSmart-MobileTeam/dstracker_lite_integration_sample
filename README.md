@@ -18,7 +18,7 @@ If you haven't already, download and install the Android Development Environment
 
 ## Installation
 
-* In the **project level** `settings.gradle` filede, add the Maven plugin with the DriveSmart License for Gradle as a dependency.
+* In the **project level** `settings.gradle` file, add the Maven plugin with the DriveSmart License for Gradle as a dependency.
 
   ```yaml
   dependencyResolutionManagement {
