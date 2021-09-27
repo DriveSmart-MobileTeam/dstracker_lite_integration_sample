@@ -127,7 +127,7 @@ Para que la librería de Drive-Smart pueda crear viajes se necesita un identific
 
 ```javascript
 // ... 
-dsManager.setUserId(USERID, result -> {
+dsTrackerLite.setUserId(USERID, result -> {
     Log.e("DRIVE-SMART", "Defining USER ID: " + USERID);          
     return null;
 });
@@ -161,7 +161,7 @@ Si el objeto recibido es valido, a continuación, se debe definir el userID en e
 
 ## Paso 4: Análisis de viajes
 
-Para iniciar un viaje es preciso incluir el método del SDK *startDecoupledService()* en un servicio. 
+Para iniciar un viaje es preciso incluir el método del SDK *start(String)* en un servicio. 
 ```
 //...
 dsTrackerLite.start(partnerMetaData);
