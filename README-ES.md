@@ -1,4 +1,4 @@
-English version: ![https://img.shields.io/badge/Spanish-Go-green](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README.md)
+`Ver esta guía en otros idiomas:`  [![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-English-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README.md)
 
 En esta guía de inicio rápido, se describe cómo configurar la librería de Drive-Smart en tu app para que puedas evaluar los viajes realizados a través de dispositivos Android.
 
