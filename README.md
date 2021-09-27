@@ -39,7 +39,7 @@ If you haven't already, download and install the Android Development Environment
 ```
 dependencies {
 	// ......
-	implementation 'DriveSmart:DS-SDK:5.20.31'
+	implementation 'DriveSmart:DS-Tracker:1.0'
   	// ......
 }
 ```
@@ -53,6 +53,7 @@ Project Permissions in `Manifest`:
 
 ```
 <!-- ... -->
+
 <!-- Services for user creation/query -->
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -61,11 +62,8 @@ Project Permissions in `Manifest`:
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-<!-- Automatic trip evaluation -->
 <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-<uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
 <!-- ... -->
 ```
 Location permissions to be queried and be active in project classes.
@@ -177,7 +175,10 @@ Once the trip ends, according to the lifecycle of the service, the *stop()* meth
 dsTrackerLite.stop();
 //...
 ```
-To send the trip to the servers for processing, it is necessary to invoke the method *upload(this)*.
+
+The events are sent as they are collected, but it is that the tracking is finished and not all the events have been sent. This can happen, for example, when the device does not have internet connection.
+
+To force send the trip to the servers for processing, it is necessary to invoke the method *upload(this)*.
 ```
 //...
 dsTrackerLite.upload(service);
