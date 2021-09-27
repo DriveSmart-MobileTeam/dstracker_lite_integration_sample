@@ -93,61 +93,66 @@ Si todos los permisos indicados están correctamente configurados, el entorno es
 ## Configuración
 * En el archivo `Java o Kotlin` del **proyecto**, agrega el objeto principal de la libreria e inicializa:
 
-  ```java
-  // ...
-  private DSTrackerLite dsTrackerLite;
-  // ...
+  ```kotlin
+    // ...
+    private DSTrackerLite dsTrackerLite
+    private lateinit var apkID: String
+    private lateinit var userID: String
+    // ...
   
-  public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-  	super.onViewCreated(view, savedInstanceState);
-    	// ...
-    	dsTrackerLite = DSTrackerLite.getInstance(requireActivity());
-    		dsTrackerLite.configure(apkID, dsResult -> {
-            	if (dsResult instanceof Success) {
-              	Log.e("DRIVE-SMART", "DSTracker configured");          
-                }else{
-                	String error = ((DSResult.Error) dsResult).getError().getDescription();
-                	Log.e("DRIVE-SMART", error);
-                }
-            	return null;
-              });
-          }
-  	// ...
-  }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // ...
+
+        defineConstants()
+        prepareEnvironment()
+  
+  	    // ...
+    }
+  
+    private fun defineConstants() {
+        apkID = ""
+        userID = ""
+    }
+  
+    private fun prepareEnvironment() {
+        dsTrackerLite = DSTrackerLite.getInstance(this)
+        dsTrackerLite.configure(apkID) { dsResult: DSResult ->
+            if (dsResult is DSResult.Success) {
+                addLog("DSTracker configured")
+                identifyEnvironmet(userID)
+            } else {
+                val error: String = dsResult.toString()
+                addLog("Configure DSTracker: $error")
+            }
+        }
+    }
+  
+    // ...
   ```
 
 ## Vinculación de usuarios
 Para que la librería de Drive-Smart pueda crear viajes se necesita un identificador de usuario *único.*
 
-```javascript
+```kotlin
 // ... 
-dsTrackerLite.setUserId(USERID, result -> {
-    Log.e("DRIVE-SMART", "Defining USER ID: " + USERID);          
-    return null;
-});
+dsTrackerLite.setUserId(uid) {
+            addLog("Defining USER ID: $uid")
+        }
 // ... 
 ```
 
 Para obtener un identificador de usuario válido, se puede consultar el siguiente servicio, el cual creará un nuevo usuario en el sistema de Drive-Smart o devolverá el usuario en caso de existir.
 
-```javascript
-private void getOrAddUser(String user) {
-    dsTrackerLite.getOrAddUserIdBy(user, new Continuation<String>() {
-            @NonNull
-            @Override
-            public CoroutineContext getContext() {
-                return null;
-            }
+```kotlin
+private fun getOrAddUser(user: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val session = getUserSession(user)
 
-            @Override
-            public void resumeWith(@NonNull Object o) {
-                if(o instanceof String){
-                    userSession = o.toString();
-                    addLog("User id created: " + o.toString());
-                }
+            userSession = session
+            addLog("User id created: $session")
             }
-        });
-}
+    }
 ```
 
 Si el objeto recibido es valido, a continuación, se debe definir el userID en el método de la librería ya comentado
@@ -156,25 +161,25 @@ Si el objeto recibido es valido, a continuación, se debe definir el userID en e
 ## Paso 4: Análisis de viajes
 
 Para iniciar un viaje es preciso incluir el método del SDK *start(String)* en un servicio.
-```
+```kotlin
 //...
-dsTrackerLite.start(partnerMetaData);
+dsTrackerLite.start(partnerMetaData)
 //...
 ```
 
 Una vez el viaje finalice, según el ciclo de vida del servicio, se debe llamar al metodo *stop()* para finalizar el análisis de viaje.
-```
+```kotlin
 //...
-dsTrackerLite.stop();
+dsTrackerLite.stop()
 //...
 ```
 Los eventos se envían tal y como se van recogiendo, pero es posible que se acabe la recogida de información y no se hayan enviado todos los eventos. Esto puede ocurrir, por ejemplo, en momentos en los que el dispositivo no tiene conexión a internet.
 
 Para forzar el envío del viaje a los servidores para su procesado es necesario invocar el método:
 *upload(this)*;
-```
+```kotlin
 //...
-dsTrackerLite.upload(service);
+dsTrackerLite.upload(service)
 //...
 ```
 
