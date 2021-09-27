@@ -1,21 +1,22 @@
-Spanish version:  ![https://img.shields.io/badge/English-Go-green](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README-ES.md)
+English version: ![https://img.shields.io/badge/Spanish-Go-green](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README.md)
 
-This quick start guide describes how to configure the DriveSmart Tracker library in your app so that you can evaluate the driving activity tracked by Android devices.
+En esta guía de inicio rápido, se describe cómo configurar la librería de Drive-Smart en tu app para que puedas evaluar los viajes realizados a través de dispositivos Android.
 
-The configuration of DriveSmart Tracker library requires IDE tasks. To finish the setup, you will need to perform a driving test to confirm the correct operation of the environment.
+La configuración de la librería de Drive-Smart requiere realizar tareas en el IDE. Para finalizar la configuración, deberás realizar un viaje de prueba a fin de confirmar el funcionamiento correcto del entorno.
 
-## Requirements
-If you haven't already, download and install the Android Development Environment and libraries. The integration will be carried out on the next versions:
+
+## Requisitos
+Si aún no lo has hecho, descarga e instala el entorno de desarrollo y las librerias de Android. La integración se realizará sobre la siguiente versión:
 * Android Studio Artic Fox | 2020.3.1
 * Runtime version: 11.0.10+
 * Gradle 7.0+
-* In your IDE make sure you have Java 11 configured
+* En tu IDE aseguraté de tener configurado JAVA 11
 
 ![java11.jpg](https://i.imgur.com/2IcZ1Tv.jpeg)
 
-## Installation
+## Instalación
 
-* In the **project level** `settings.gradle` filede, add the Maven plugin with the DriveSmart License for Gradle as a dependency.
+* En el archivo `settings.gradle` de **nivel de proyecto**, agrega el complemento de Maven con la licencia de Drive-Smart para Gradle como dependencia.
 
   ```yaml
   dependencyResolutionManagement {
@@ -34,7 +35,7 @@ If you haven't already, download and install the Android Development Environment
       }
   }
   ```
-* In the **app level** `build.gradle` file, apply the SDK plugin for Gradle:
+* En tu archivo `build.gradle` de **nivel de app**, aplica el complemento del SDK para Gradle:
 
 ```
 dependencies {
@@ -45,30 +46,30 @@ dependencies {
 ```
 
 
-## Permissions
+## Permisos
 
-It is necessary to define the corresponding permissions, otherwise the library will respond with different error messages.
+Es necesario definir los permisos correspondientes, en caso contrario la libreria responderá distintos mensajes de error.
 
-Project Permissions in `Manifest`:
+Permisos en `Manifest` del proyecto:
 
 ```
 <!-- ... -->
-<!-- Services for user creation/query -->
+<!-- Servicio para creación/consulta usuario -->
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-<!-- Trip evaluation -->
+<!-- Evaluación de viajes -->
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-<!-- Automatic trip evaluation -->
+<!-- Evaluación automática de viajes -->
 <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 <!-- ... -->
 ```
-Location permissions to be queried and be active in project classes.
+Permisos de ubicación que deben consultarse y estar activos en las clases del proyecto.
 ```
 // ...
 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -76,7 +77,7 @@ Manifest.permission.ACCESS_FINE_LOCATION
 // ...
 ```
 
-In addition to the basic permissions for the evaluation of trips indicated previously, the following permission is mandatory to be able to activate the automatic recording of trips:
+Además de los permisos básicos para la evaluación de viajes indicados previamente, es necesario el siguiente permiso para poder activar la grabación automática de viajes:
 
 ```
 // ...
@@ -84,7 +85,7 @@ Manifest.permission.ACCESS_BACKGROUND_LOCATION
 // ...
 ```
 
-Finally, confirm that the app is not included as an optimized app. To do this, you can check the status with the following code extract:
+Por último, se debe confirmar que la aplicación no está incluida como aplicación optimizada. Para ello se puede consultar el estado con el siguiente extracto de código:
 
 ```javascript
 // ...
@@ -93,12 +94,12 @@ boolean isbatteryOptimized = powerManager.isDeviceIdleMode() && !powerManager.is
 // ...
 ```
 
-If all the permissions indicated are correctly configured, the environment will be configured and trips can be made.
+Si todos los permisos indicados están correctamente configurados, el entorno estará configurado y se podrán realizar viajes.
 
 
 
-## Configuration
-* In the **project** `Java or Kotlin` file, add the library main object and initialize it:
+## Configuración
+* En el archivo `Java o Kotlin` del **proyecto**, agrega el objeto principal de la libreria e inicializa:
 
   ```java
   // ...
@@ -123,19 +124,19 @@ If all the permissions indicated are correctly configured, the environment will 
   }
   ```
 
-## User linking
-A unique user identifier is required for the DriveSmart Library to create trips.
+## Vinculación de usuarios
+Para que la librería de Drive-Smart pueda crear viajes se necesita un identificador de usuario *único.*
 
 ```javascript
 // ... 
-dsManager.setUserId(USERID, result -> {
+dsTrackerLite.setUserId(USERID, result -> {
     Log.e("DRIVE-SMART", "Defining USER ID: " + USERID);          
     return null;
 });
 // ... 
 ```
 
-To obtain a valid user identifier, the following service can be consulted, whitch will create a new user in the DriveSmart System or return the user if it exist.
+Para obtener un identificador de usuario válido, se puede consultar el siguiente servicio, el cual creará un nuevo usuario en el sistema de Drive-Smart o devolverá el usuario en caso de existir.
 
 ```javascript
 private void getOrAddUser(String user) {
@@ -143,7 +144,7 @@ private void getOrAddUser(String user) {
             @NonNull
             @Override
             public CoroutineContext getContext() {
-                return EmptyCoroutineContext.INSTANCE;
+                return null;
             }
 
             @Override
@@ -157,39 +158,38 @@ private void getOrAddUser(String user) {
 }
 ```
 
-If the received object is valid, then the userId must be defined in the library method already commented.
+Si el objeto recibido es valido, a continuación, se debe definir el userID en el método de la librería ya comentado
 
 
-## Step 4: Trip analysis
+## Paso 4: Análisis de viajes
 
-To start a trip, you must include the SDK method *start(String)* in a service
-
-*Es necesario declarar en el Manifest del proyecto el servicio que usará la librería de Drive-Smart*
+Para iniciar un viaje es preciso incluir el método del SDK *start(String)* en un servicio.
 ```
 //...
 dsTrackerLite.start(partnerMetaData);
 //...
 ```
 
-Once the trip ends, according to the lifecycle of the service, the *stop()* method must be called to end the trip analysis.
+Una vez el viaje finalice, según el ciclo de vida del servicio, se debe llamar al metodo *stop()* para finalizar el análisis de viaje.
 ```
 //...
 dsTrackerLite.stop();
 //...
 ```
-To send the trip to the servers for processing, it is necessary to invoke the method *upload(this)*.
+Para enviar el viaje a los servidores para su procesado es necesario invocar el método:
+*upload(this)*;
 ```
 //...
 dsTrackerLite.upload(service);
 //...
 ```
 
-### Trip info:
-Once a trip has started, DSTracker offers a method for obtaining trip information. *TrackingStatus* is obtained throught the *getStatus()* method with the info:
-+ Total distance
-+ Trip time
-+ Trio id
-+ GPS Status
-+ Trip Status
+### Información del viaje:
+Una vez iniciado un viaje, DSTracker ofrece un de método para poder obtener información del viaje. *TrackingStatus* se obtiene a través del método *getStatus()* con la información:
++ Distancia total
++ Tiempo de viaje.
++ Trip ID
++ Estado del GPS.
++ Estado del viaje.
 
 
