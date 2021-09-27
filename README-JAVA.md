@@ -1,7 +1,7 @@
 `See this guide in other languages:`  [![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-Spanish-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README-ES.md)
-[![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-Java-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README-JAVA.md)
+[![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-Kotlin-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README.md)
 
-# DSTracker Integration (Kotlin)
+# DSTracker Integration (Java)
 
 This quick start guide describes how to configure the DriveSmart Tracker library in your app so that you can evaluate the driving activity tracked by Android devices.
 

@@ -1,7 +1,7 @@
 `Ver esta guía en otros idiomas:`  [![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-English-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README.md)
-[![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-Java-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README-JAVA-ES.md)
+[![DSTracker](https://img.shields.io/badge/DSTracker%20Integration-Kotlin-success)](https://github.com/DriveSmart-MobileTeam/dstracker_lite_integration_sample/blob/main/README-ES.md)
 
-# Integración de DSTracker (Kotlin)
+# Integración de DSTracker (Java)
 
 En esta guía de inicio rápido, se describe cómo configurar la librería de Drive-Smart en tu app para que puedas evaluar los viajes realizados a través de dispositivos Android.
 
