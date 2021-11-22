@@ -83,6 +83,6 @@ class LiteService : Service() {
     }
 
     private fun startForceUpload() {
-        dsTrackerLite.upload(this)
+        dsTrackerLite.upload()
     }
 }
