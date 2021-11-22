@@ -9,9 +9,9 @@ import android.text.method.ScrollingMovementMethod;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.drivesmartsdk.enums.DSResult;
-import com.drivesmartsdk.models.TrackingStatus;
-import com.drivesmartsdk.singleton.DSTrackerLite;
+import com.drivesmart.tracker.enums.DSResult;
+import com.drivesmart.tracker.models.TrackingStatus;
+import com.drivesmart.tracker.singleton.DSTrackerLite;
 import com.ds.test.databinding.ActivityMainBinding;
 
 import kotlin.coroutines.Continuation;

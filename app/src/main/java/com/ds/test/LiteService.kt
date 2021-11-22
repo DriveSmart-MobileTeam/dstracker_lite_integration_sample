@@ -10,8 +10,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.drivesmartsdk.singleton.DSTrackerLite.Companion.getInstance
-import com.drivesmartsdk.singleton.DSTrackerLite
+import com.drivesmart.tracker.singleton.DSTrackerLite
 
 
 class LiteService : Service() {
@@ -35,7 +34,7 @@ class LiteService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        dsTrackerLite = getInstance(applicationContext)
+        dsTrackerLite = DSTrackerLite.getInstance(applicationContext)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

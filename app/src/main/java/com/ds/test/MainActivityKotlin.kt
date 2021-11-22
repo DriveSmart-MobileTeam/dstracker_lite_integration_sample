@@ -3,18 +3,12 @@ package com.ds.test
 import android.Manifest
 
 import androidx.appcompat.app.AppCompatActivity
-import com.drivesmartsdk.interfaces.DSManagerInterface
-import com.drivesmartsdk.singleton.DSManager
-import com.drivesmartsdk.DSDKUserSession
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.content.Intent
 import android.os.Handler
-import com.drivesmartsdk.enums.DSNotification
-import com.drivesmartsdk.enums.DSInternalMotionActivities
-import com.drivesmartsdk.enums.DSMotionEvents
-import com.drivesmartsdk.enums.DSResult
-import com.drivesmartsdk.singleton.DSTrackerLite
+import com.drivesmart.tracker.enums.DSResult
+import com.drivesmart.tracker.singleton.DSTrackerLite
 import com.ds.test.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -42,8 +36,8 @@ class MainActivityKotlin: AppCompatActivity() {
     }
 
     private fun defineConstants() {
-        apkID = ""
-        userID = ""
+        apkID = "7F87144D-D621-4056-B981-5A15AA6228DD-2-26"
+        userID = "0851107f8795378"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,11 +57,14 @@ class MainActivityKotlin: AppCompatActivity() {
         checkPerms()
         binding.checkPermButton.setOnClickListener { checkPerms() }
         binding.startTripButton.setOnClickListener {
-            LiteService.startService(this, "Foreground Service Example in Android", "PMD")
+            dsTrackerLite.start()
+            //LiteService.startService(this, "Foreground Service Example in Android", "PMD")
         }
         binding.stopTripButton.setOnClickListener {
+            dsTrackerLite.stop()
+            dsTrackerLite.upload()
             handlerTrip.removeCallbacksAndMessages(updateTimerThread)
-            LiteService.stopService(this, applicationContext)
+            //LiteService.stopService(this, applicationContext)
         }
         binding.setUserButton.setOnClickListener {
             if (userSession != null) {

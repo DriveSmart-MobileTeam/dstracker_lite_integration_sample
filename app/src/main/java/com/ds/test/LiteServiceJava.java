@@ -12,10 +12,8 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.drivesmartsdk.singleton.DSManager;
-import com.drivesmartsdk.singleton.DSTrackerLite;
+import com.drivesmart.tracker.singleton.DSTrackerLite;
 
 
 public class LiteServiceJava extends Service {
