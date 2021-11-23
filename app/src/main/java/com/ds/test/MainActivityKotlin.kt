@@ -15,6 +15,7 @@ import com.drivesmartsdk.enums.DSNotification
 import com.drivesmartsdk.enums.DSInternalMotionActivities
 import com.drivesmartsdk.enums.DSMotionEvents
 import com.drivesmartsdk.enums.DSResult
+import com.drivesmartsdk.models.DSInfoTrip
 import com.drivesmartsdk.singleton.DSTrackerLite
 import com.ds.test.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
@@ -161,9 +162,12 @@ class MainActivityKotlin: AppCompatActivity(), DSManagerInterface{
     private val updateTimerThread: Runnable = object : Runnable {
         override fun run() {
             val beanStatus = dsTrackerLite.getStatus()
+            val infoTrip: DSInfoTrip = dsTrackerLite.tripInfo()
 
             addLog("Timer: " + convertMillisecondsToHMmSs(beanStatus.serviceTime))
             addLog("Distance: " + beanStatus.totalDistance)
+            addLog("Start position: " + infoTrip.startLocation)
+            addLog("End position: " + infoTrip.endLocation)
             handlerTrip.postDelayed(this, 2000)
         }
     }
