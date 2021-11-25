@@ -156,7 +156,8 @@ If the received object is valid, then the userId must be defined in the library 
 
 To start a trip, you must include the SDK method *start(String)* in a service
 
-*Es necesario declarar en el Manifest del proyecto el servicio que usará la librería de Drive-Smart*
+* It is necessary to declare in the project's Manifest the service that the Drive-Smart library will use *
+
 ```
 //...
 dsTrackerLite.start(partnerMetaData);
@@ -170,13 +171,26 @@ dsTrackerLite.stop();
 //...
 ```
 
+To force send the trip to the servers for processing, it is necessary to invoke the method *upload()*.
+
 The events are sent as they are collected, but it is that the tracking is finished and not all the events have been sent. This can happen, for example, when the device does not have internet connection.
 
-To force send the trip to the servers for processing, it is necessary to invoke the method *upload(this)*.
 ```
 //...
-dsTrackerLite.upload(service);
+dsTrackerLite.upload();
 //...
+```
+
+## DSManagerInterface
+
+We can also see through the DSManagerInterface the results of the start() and stop() calls.
+
+```
+interface DSManagerInterface:DSMotionManagerInterface {
+fun startService( result: DSResult)
+fun stopService(result: DSResult)
+fun statusEventService(result: DSResult)
+}
 ```
 
 ### Trip info:

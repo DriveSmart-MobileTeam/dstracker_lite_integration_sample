@@ -10,10 +10,12 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.content.Intent
 import android.os.Handler
+import android.util.Log
 import com.drivesmartsdk.enums.DSNotification
 import com.drivesmartsdk.enums.DSInternalMotionActivities
 import com.drivesmartsdk.enums.DSMotionEvents
 import com.drivesmartsdk.enums.DSResult
+import com.drivesmartsdk.models.DSInfoTrip
 import com.drivesmartsdk.singleton.DSTrackerLite
 import com.ds.test.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivityKotlin: AppCompatActivity() {
+class MainActivityKotlin: AppCompatActivity(), DSManagerInterface{
     private lateinit var binding: ActivityMainBinding
     private lateinit var dsTrackerLite: DSTrackerLite
     private lateinit var apkID: String
@@ -42,8 +44,8 @@ class MainActivityKotlin: AppCompatActivity() {
     }
 
     private fun defineConstants() {
-        apkID = ""
-        userID = ""
+        apkID = "7F87144D-D621-4056-B981-5A15AA6228DD-2-26"
+        userID = "10432929d379826"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,13 +57,18 @@ class MainActivityKotlin: AppCompatActivity() {
         defineConstants()
         prepareEnvironment()
         prepareView()
+
+
     }
 
     private fun prepareView() {
         handlerTrip = Handler(mainLooper)
         binding.logText.movementMethod = ScrollingMovementMethod()
         checkPerms()
-        binding.checkPermButton.setOnClickListener { checkPerms() }
+        binding.checkPermButton.setOnClickListener {
+            dsTrackerLite.upload()
+            //checkPerms()
+        }
         binding.startTripButton.setOnClickListener {
             LiteService.startService(this, "Foreground Service Example in Android", "PMD")
         }
@@ -122,6 +129,7 @@ class MainActivityKotlin: AppCompatActivity() {
 
     private fun prepareEnvironment() {
         dsTrackerLite = DSTrackerLite.getInstance(this)
+        dsTrackerLite.setListener(this)
         dsTrackerLite.configure(apkID) { dsResult: DSResult ->
             if (dsResult is DSResult.Success) {
                 addLog("DSTracker configured")
@@ -154,9 +162,12 @@ class MainActivityKotlin: AppCompatActivity() {
     private val updateTimerThread: Runnable = object : Runnable {
         override fun run() {
             val beanStatus = dsTrackerLite.getStatus()
+            val infoTrip: DSInfoTrip = dsTrackerLite.tripInfo()
 
             addLog("Timer: " + convertMillisecondsToHMmSs(beanStatus.serviceTime))
             addLog("Distance: " + beanStatus.totalDistance)
+            addLog("Start position: " + infoTrip.startLocation)
+            addLog("End position: " + infoTrip.endLocation)
             handlerTrip.postDelayed(this, 2000)
         }
     }
@@ -167,6 +178,23 @@ class MainActivityKotlin: AppCompatActivity() {
         val m = seconds / 60 % 60
         val h = seconds / (60 * 60) % 24
         return String.format("%02d:%02d:%02d", h, m, s)
+    }
+
+    override fun motionDetectedActivity(activity: DSInternalMotionActivities, percentage: Int) {
+    }
+
+    override fun motionStatus(result: DSMotionEvents) {
+    }
+
+    override fun startService(result: DSResult) {
+        Log.i("LITE", ">>"+result.toString())
+    }
+
+    override fun statusEventService(result: DSResult) {
+    }
+
+    override fun stopService(result: DSResult) {
+        Log.i("LITE", ">"+result.toString())
     }
     // ****************************************v****************************************
     // ******************************* Client Stuff ************************************

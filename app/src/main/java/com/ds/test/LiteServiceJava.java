@@ -82,6 +82,6 @@ public class LiteServiceJava extends Service {
 
     private void startForceUpload(){
         dsTrackerLite.stop();
-        dsTrackerLite.upload(this);
+        dsTrackerLite.upload();
     }
 }
