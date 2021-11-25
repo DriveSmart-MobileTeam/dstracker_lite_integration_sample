@@ -171,11 +171,23 @@ dsTrackerLite.stop();
 Los eventos se envían tal y como se van recogiendo, pero es posible que se acabe la recogida de información y no se hayan enviado todos los eventos. Esto puede ocurrir, por ejemplo, en momentos en los que el dispositivo no tiene conexión a internet.
 
 Para forzar el envío del viaje a los servidores para su procesado es necesario invocar el método:
-*upload(this)*;
+*upload()*;
 ```
 //...
-dsTrackerLite.upload(service);
+dsTrackerLite.upload();
 //...
+```
+
+## DSManagerInterface
+
+También podemos ver a traves de la interfaz DSManagerInterface los resultados de las llamadas start() y stop().
+
+```
+interface DSManagerInterface:DSMotionManagerInterface {
+fun startService( result: DSResult)
+fun stopService(result: DSResult)
+fun statusEventService(result: DSResult)
+}
 ```
 
 ### Información del viaje:
