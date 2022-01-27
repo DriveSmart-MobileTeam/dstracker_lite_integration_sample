@@ -3,20 +3,12 @@ package com.ds.test
 import android.Manifest
 
 import androidx.appcompat.app.AppCompatActivity
-import com.drivesmartsdk.interfaces.DSManagerInterface
-import com.drivesmartsdk.singleton.DSManager
-import com.drivesmartsdk.DSDKUserSession
+
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.content.Intent
 import android.os.Handler
 import android.util.Log
-import com.drivesmartsdk.enums.DSNotification
-import com.drivesmartsdk.enums.DSInternalMotionActivities
-import com.drivesmartsdk.enums.DSMotionEvents
-import com.drivesmartsdk.enums.DSResult
-import com.drivesmartsdk.models.DSInfoTrip
-import com.drivesmartsdk.singleton.DSTrackerLite
 import com.ds.test.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
