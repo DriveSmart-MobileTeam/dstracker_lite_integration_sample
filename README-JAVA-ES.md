@@ -7,6 +7,16 @@ En esta guía de inicio rápido, se describe cómo configurar la librería de Dr
 
 La configuración de la librería de Drive-Smart requiere realizar tareas en el IDE. Para finalizar la configuración, deberás realizar un viaje de prueba a fin de confirmar el funcionamiento correcto del entorno.
 
+# Tabla de contenidos
+1. [Requisitos](#requisitos)
+2. [Instalación](#instalacin)
+3. [Permisos](#permisos)
+4. [Configuración](#configuracin)
+5. [Vinculación de usuarios](#vinculacin-de-usuarios)
+6. [Registro de viajes](#registro-de-viajes)
+  1. [Control de viajes en modo manual](#control-de-viajes-en-modo-manual)
+  2. [Interfaz pública](#interfaz-pblica)
+  3. [Información del viaje](#informacin-del-viaje)
 
 ## Requisitos
 Si aún no lo has hecho, descarga e instala el entorno de desarrollo y las librerias de Android. La integración se realizará sobre la siguiente versión:
@@ -178,17 +188,20 @@ dsTrackerLite.upload();
 //...
 ```
 
-## DSManagerInterface
+### Interfaz pública
+* En el archivo del **proyecto**, agrega la interfaz `DSManagerInterface` e implementa los métodos indicados. Dicha interfaz será la encargada de recibir los eventos que el Tracker genera. El programador decidirá que clase es la encargada.
 
-También podemos ver a traves de la interfaz DSManagerInterface los resultados de las llamadas start() y stop().
+  ```java
+  @Override
+  public void startService(@NonNull DSResult result) {}
+  
+  @Override
+  public void stopService(@NonNull DSResult result) {}
+  
+  @Override
+  public void statusEventService(@NonNull DSResult dsResult) {}
+  ```
 
-```
-interface DSManagerInterface:DSMotionManagerInterface {
-fun startService( result: DSResult)
-fun stopService(result: DSResult)
-fun statusEventService(result: DSResult)
-}
-```
 
 ### Información del viaje:
 Una vez iniciado un viaje, DSTracker ofrece un de método para poder obtener información del viaje. *TrackingStatus* se obtiene a través del método *getStatus()* con la información:

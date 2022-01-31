@@ -7,6 +7,17 @@ This quick start guide describes how to configure the DriveSmart Tracker library
 
 The configuration of DriveSmart Tracker library requires IDE tasks. To finish the setup, you will need to perform a driving test to confirm the correct operation of the environment.
 
+# Table of contents
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Permissions](#permissions)
+4. [Configuration](#configuration)
+5. [User linking](#user-linking)
+6. [Trip analysis](#trip-analysis)
+  1. [Trip analysis in manual mode](#trip-analysis-in-manual-mode)
+  2. [Public interface](#public-interface)
+  3. [Trip info](#trip-info)
+
 ## Requirements
 If you haven't already, download and install the Android Development Environment and libraries. The integration will be carried out on the next versions:
 * Android Studio Artic Fox | 2020.3.1
@@ -152,7 +163,10 @@ private void getOrAddUser(String user) {
 If the received object is valid, then the userId must be defined in the library method already commented.
 
 
-## Step 4: Trip analysis
+
+## Trip analysis
+
+### Trip analysis in manual mode
 
 To start a trip, you must include the SDK method *start(String)* in a service
 
@@ -181,17 +195,19 @@ dsTrackerLite.upload();
 //...
 ```
 
-## DSManagerInterface
+### Public interface
+* In the ** project ** file, add the interface `DSManagerInterface` and implement the indicated methods. This interface will be in charge of receiving the events that the Tracker generates. The programmer will decide which class is in charge.
 
-We can also see through the DSManagerInterface the results of the start() and stop() calls.
-
-```
-interface DSManagerInterface:DSMotionManagerInterface {
-fun startService( result: DSResult)
-fun stopService(result: DSResult)
-fun statusEventService(result: DSResult)
-}
-```
+  ```java
+  @Override
+  public void startService(@NonNull DSResult result) {}
+  
+  @Override
+  public void stopService(@NonNull DSResult result) {}
+  
+  @Override
+  public void statusEventService(@NonNull DSResult dsResult) {}
+  ```
 
 ### Trip info:
 Once a trip has started, DSTracker offers a method for obtaining trip information. *TrackingStatus* is obtained throught the *getStatus()* method with the info:
